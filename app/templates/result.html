@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Your Plan - FitBuddy{% endblock %}
+{% block content %}
+<div class="card">
+  <h2>{{ user.name }}'s Plan</h2>
+  <p>Age {{ user.age }} · {{ user.weight }} kg · Goal: <b>{{ plan.goal }}</b> · Intensity: <b>{{ plan.intensity }}</b></p>
+  {{ (plan.updated_plan or plan.original_plan) | md | safe }}
+</div>
+
+{% if tips %}
+<div class="grid">
+  <div class="card"><h3>🥗 Nutrition</h3>{{ tips.nutrition | md | safe }}</div>
+  <div class="card"><h3>😴 Recovery</h3>{{ tips.recovery | md | safe }}</div>
+</div>
+{% endif %}
+
+<div class="card">
+  <h3>Want changes?</h3>
+  <form method="post" action="/plan/{{ plan.id }}/update">
+    <textarea name="feedback" rows="3" placeholder="e.g. No gym equipment, make it 30 min per day" required></textarea>
+    <button type="submit">Update Plan</button>
+  </form>
+</div>
+{% endblock %}

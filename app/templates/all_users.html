@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Admin - All Users{% endblock %}
+{% block content %}
+<div class="card">
+  <h2>All Users ({{ users|length }})</h2>
+  <div style="overflow-x:auto">
+  <table>
+    <tr><th>ID</th><th>Name</th><th>Age</th><th>Weight</th><th>Goal</th><th>Intensity</th><th>Created</th><th>Plans</th><th></th></tr>
+    {% for u in users %}
+    <tr>
+      <td>{{ u.id }}</td><td>{{ u.name }}</td><td>{{ u.age }}</td><td>{{ u.weight }}</td>
+      <td>{{ u.goal }}</td><td>{{ u.intensity }}</td>
+      <td>{{ u.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+      <td>{% for p in u.plans %}<a href="/admin/plan/{{ p.id }}">#{{ p.id }}</a> {% endfor %}</td>
+      <td><form method="post" action="/admin/users/{{ u.id }}/delete" onsubmit="return confirm('Delete this user?')">
+        <button class="danger" style="margin:0;padding:6px 10px">Delete</button></form></td>
+    </tr>
+    {% else %}
+    <tr><td colspan="9">No users yet.</td></tr>
+    {% endfor %}
+  </table></div>
+</div>
+{% endblock %}
